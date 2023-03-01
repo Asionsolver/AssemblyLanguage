@@ -13,18 +13,18 @@ MAIN PROC
     MOV DL,AL
     INT 21H  
     
-     MOV AH,1 ;INPUT
+    MOV AH,1 ;INPUT
     INT 21H
 
     SUB AL, 20H ;CONVERSION
     MOV AH,2 ;OUTPUT
     MOV DL,AL
     INT 21H
-    
-     MOV AH,1 ;INPUT
+  
+    MOV AH,1 ;INPUT
     INT 21H
     SUB AL, 20H ;CONVERSION
-    
+
     MOV AH,2 ;OUTPUT
     MOV DL,AL
     INT 21H
