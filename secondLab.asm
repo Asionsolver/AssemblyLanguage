@@ -29,13 +29,31 @@ MAIN PROC
     MOV DL, 0AH
     INT 21H
     
-    MOV DL, 'P'
+    MOV DL, '2'
     INT 21H 
     
-    MOV DL, 'A'
+    MOV DL, '0'
     INT 21H
     
-    MOV DL, 'L'
+    MOV DL, '1'
+    INT 21H 
+
+    MOV DL, '3'
+    INT 21H 
+    
+    MOV DL, '1'
+    INT 21H
+    
+    MOV DL, '1'
+    INT 21H 
+
+    MOV DL, '0'
+    INT 21H 
+    
+    MOV DL, '4'
+    INT 21H
+    
+    MOV DL, '9'
     INT 21H 
         
     MOV AH,4CH  ;BACK TO OS
