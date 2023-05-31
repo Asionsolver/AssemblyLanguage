@@ -1,35 +1,50 @@
+.MODEL SMALL 
+.STACK 100H 
+.DATA
+
+    A    DB 10,13,'ENTER THE NUMBER: $'
+    C    DB 10,13,'RESULT $'
 .CODE
-main PROC
-                mov  al, 1              ; Example: Set AL to 1
+MAIN PROC
 
-                cmp  al, 1              ; Compare the value in AL with 1
-                je   display_o          ; Jump to display_o if equal (JE)
+            MOV AX,@DATA
+            MOV DS,AX
 
-                cmp  al, 3              ; Compare the value in AL with 3
-                je   display_o          ; Jump to display_o if equal (JE)
-
-                cmp  al, 2              ; Compare the value in AL with 2
-                je   display_e          ; Jump to display_e if equal (JE)
-
-                cmp  al, 4              ; Compare the value in AL with 4
-                je   display_e          ; Jump to display_e if equal (JE)
-
-                jmp  end_program        ; Jump to end_program if none of the conditions are met
-
-    display_o:  
-                mov  edx, OFFSET "o"    ; Display "o"
-                call WriteString
-                jmp  end_program        ; Jump to end_program
-
-    display_e:  
-                mov  edx, OFFSET "e"    ; Display "e"
-                call WriteString
-                jmp  end_program        ; Jump to end_program
-
-    end_program:
-                call Crlf               ; Move to the next line
-                exit                    ; Exit the program
-
-main ENDP
-
-END main
+            MOV AH,9
+            LEA DX,A
+            INT 21H
+    
+            MOV AH,1
+            INT 21H
+    
+    
+            MOV AH,9
+            LEA DX,C
+            INT 21H
+    
+            CMP AL,1
+            JE  ODD
+            CMP AL,3
+            JE  ODD
+            CMP AL,2
+            JE  EVEN
+            CMP AL,4
+            JE  EVEN
+     
+    ODD:    
+            MOV DL,'o'
+            JMP DISPLAY
+     
+    EVEN:   
+            MOV DL,'e'
+            JMP DISPLAY
+    
+    DISPLAY:
+            MOV AH,2
+            INT 21h
+      
+    EXIT:   
+            MOV AH,4CH
+            INT 21H
+MAIN ENDP
+END MAIN

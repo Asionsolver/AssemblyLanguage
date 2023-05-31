@@ -1,27 +1,58 @@
 .MODEL SMALL
-.STACK 100H  
+ .STACK 100H
+ 
 .DATA
+    PROMPT DB 'Enter the character : $'
+    MSG_1  DB 'The input letter is : $'
+    MSG_2  DB 'The input character is not an Upper Case Letter.$'
+ 
 .CODE
 MAIN PROC
-
-    MOV AH,1               // get the char
-    INT 21H
-
-    CMP AL,'A'             // compare and check what to do
-    JB ELSE                // smaller than 'A': don't display it 
-    CMP AL,'Z'  
-    JA ELSE                // bigger than 'Z': don't display it
-THEN:
-    MOV AH,2               // you only get here if it's an uppercase letter
-    MOV DL,AL
-    INT 21H
-    // JMP END_IF          // since you're just skipping "do nothing" this jmp 
-                           // is not needed at all
-ELSE_: 
-    /* do nothing */
-END_IF:    
-    MOV AH,4CH             // exit
-    INT 21H
-
+         MOV AX, @DATA     ; initialize DS
+         MOV DS, AX
+ 
+         LEA DX, PROMPT    ; load and print PROMPT
+         MOV AH, 9
+         INT 21H
+ 
+         MOV AH, 1         ; read a character
+         INT 21H
+ 
+         MOV BL, AL        ; save the input character into BL
+ 
+         MOV AH, 2         ; carriage return
+         MOV DL, 0DH
+         INT 21H
+ 
+         MOV DL, 0AH       ; line feed
+         INT 21H
+ 
+         CMP BL, "A"       ; compare input character and "A"
+ 
+         JB  @DISPLAY      ; jump to label @DISPLAY if input<A
+ 
+         CMP BL, "Z"       ; compare input character and "Z"
+ 
+         JA  @DISPLAY      ; jump to label @DISPLAY if input>Z
+ 
+         LEA DX,MSG_1      ; load and print MSG_1
+         MOV AH, 9
+         INT 21H
+ 
+         MOV AH, 2         ; print the character
+         MOV DL, BL
+         INT 21H
+ 
+         JMP @EXIT         ; jump to label @EXIT
+ 
+@DISPLAY:                  ; jump label
+         LEA DX,MSG_2      ; load and print MSG_2
+         MOV AH, 9
+         INT 21H
+ 
+@EXIT:                     ; jump label
+ 
+         MOV AH, 4CH       ; return control to DOS
+         INT 21H
 MAIN ENDP
-END MAIN
+ END MAIN
