@@ -6,15 +6,21 @@
 .CODE
 
 MAIN PROC
+    MOV AX,8
+    MOV BX,9
+
     MOV CX,AX
     CMP BX,CX
     JLE NEXT
     MOV CX,BX
-    MOV AH,4CH
-    INT 21H
+
 
 NEXT:
     ; Add your code here for the case when BX <= CX
+    MOV AH,2
+    ADD CX,30H
+    MOV DL,CL
+    INT 21H
 
     MOV AH,4CH
     INT 21H

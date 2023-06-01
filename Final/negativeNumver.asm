@@ -4,29 +4,31 @@
 .CODE
 
 MAIN PROC
-    MOV AX, -5          ; Example: AX contains a negative number (-5)
+        MOV AX, 32H
+        
+        CMP AX, 0
 
-    CMP AX, 0           ; Compare AX with 0
-    JL NEGATIVE         ; Jump to NEGATIVE if AX is less than 0
-    JE ZERO 
-    JG POSITIVE            ; Jump to ZERO if AX is equal to 0
-
-    MOV BX, 1          ; If neither condition is true, move 1 to BX for a positive number
-    JMP END             ; Jump to END
+        JL NEGATIVE
+        JG POSITIVE
+        JE ZERO
 
 NEGATIVE:
-    MOV BX, -1          ; If AX is less than 0, move -1 to BX
-    JMP END             ; Jump to END
+MOV BX, -31H
+JMP END_CASE
 
 ZERO:
-    MOV BX, 0           ; If AX is equal to 0, move 0 to BX
-    JMP END             ; Jump to END
+MOV BX, 30H
+JMP END_CASE
 
 POSITIVE:
-    MOV BX, 1           ; If AX is greater than 0, move 1 to BX
-    JMP END             ; Jump to END
+MOV BX, 31H
 
-END:
+
+END_CASE:
+MOV AH, 2
+MOV DX , BX
+INT 21H
+
     MOV AH, 4CH         ; Exit the program
     INT 21H
 
